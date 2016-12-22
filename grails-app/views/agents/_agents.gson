@@ -1,0 +1,13 @@
+import grails3withleafletjs.Agents
+
+model {
+    Agents agents
+}
+
+json {
+    name agents.name
+    latitude agents.latitude
+    longitude agents.longitude
+    age agents.age
+    gender agents.gender
+}
