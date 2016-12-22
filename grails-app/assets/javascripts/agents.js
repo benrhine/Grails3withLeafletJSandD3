@@ -44,80 +44,84 @@ var agentsMap = L.map('agentsMap', {
     'maxBounds': maxBounds
 }).fitBounds(maxBounds);
 
-function addMaleAgents() {
-    setActiveButton('add-male');
-    agentsMap.addLayer(maleMarkers);
-}
+var AgentUtils = {
 
-function removeMaleAgents() {
-    setActiveButton('remove-male');
-    agentsMap.removeLayer(maleMarkers);
-}
+    setActiveButton: function(id) {
+        document.getElementById(previouslyActive).className = '';
+        document.getElementById(id).className = 'active';
+        previouslyActive = id;
+    },
 
-function addFemaleAgents() {
-    setActiveButton('add-female');
-    agentsMap.addLayer(femaleMarkers);
-}
+    addMaleAgents: function() {
+        this.setActiveButton('add-male');
+        agentsMap.addLayer(maleMarkers);
+    },
 
-function removeFemaleAgents() {
-    setActiveButton('remove-female');
-    agentsMap.removeLayer(femaleMarkers);
-}
+    removeMaleAgents: function() {
+        this.setActiveButton('remove-male');
+        agentsMap.removeLayer(maleMarkers);
+    },
 
-function setActiveButton(id) {
-    document.getElementById(previouslyActive).className = '';
-    document.getElementById(id).className = 'active';
-    previouslyActive = id;
-}
+    addFemaleAgents: function() {
+        this.setActiveButton('add-female');
+        agentsMap.addLayer(femaleMarkers);
+    },
 
-function onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.popupContent) {
-        layer.bindPopup(feature.properties.popupContent);
-    }
+    removeFemaleAgents: function() {
+        this.setActiveButton('remove-female');
+        agentsMap.removeLayer(femaleMarkers);
+    },
+
+    onEachFeature: function(feature, layer) {
+        if (feature.properties && feature.properties.popupContent) {
+            layer.bindPopup(feature.properties.popupContent);
+        }
+    },
+
+    showAll: function() {
+        this.setActiveButton('show-all');
+        agentsMap.addLayer(maleMarkers);
+        agentsMap.addLayer(femaleMarkers);
+    },
+
+    removeAll: function() {
+        this.setActiveButton('clear-all');
+        agentsMap.removeLayer(maleMarkers);
+        agentsMap.removeLayer(femaleMarkers);
+        agentsMap.removeLayer(ageMarkers);
+    },
+
+    showByAge: function() {
+        agentsMap.removeLayer(maleMarkers);
+        agentsMap.removeLayer(femaleMarkers);
+        agentsMap.addLayer(ageMarkers);
+    },
+
+    removeByAge: function() {
+        agentsMap.removeLayer(ageMarkers);
+    },
+
+    femaleAgents: function() {
+        $.each(female, function(index, value) {
+            femaleMarkers.addLayer(female[index]);
+        });
+    },
+
+    maleAgents: function() {
+        $.each(male, function(index, value) {
+            maleMarkers.addLayer(male[index]);
+        });
+    },
+
+    ageOfAgents: function() {
+        $.each(age, function(index, value) {
+            ageMarkers.addLayer(age[index]);
+        });
+        this.showByAge();
+    },
 };
 
-function showAll() {
-    //setActiveButton('show-all');
-    agentsMap.addLayer(maleMarkers);
-    agentsMap.addLayer(femaleMarkers);
-};
-
-function removeAll() {
-    setActiveButton('clear-all');
-    agentsMap.removeLayer(maleMarkers);
-    agentsMap.removeLayer(femaleMarkers);
-    agentsMap.removeLayer(ageMarkers);
-};
-
-function showByAge() {
-    agentsMap.removeLayer(maleMarkers);
-    agentsMap.removeLayer(femaleMarkers);
-    agentsMap.addLayer(ageMarkers);
-};
-
-function removeByAge() {
-    agentsMap.removeLayer(ageMarkers);
-}
-
-function femaleAgents() {
-    $.each(female, function( index, value) {
-        femaleMarkers.addLayer(female[index]);
-    });
-};
-
-function maleAgents() {
-    $.each(male, function( index, value) {
-        maleMarkers.addLayer(male[index]);
-    });
-};
-
-function ageOfAgents() {
-    $.each(age, function( index, value) {
-        ageMarkers.addLayer(age[index]);
-    });
-    showByAge();
-};
-
+// This does not work correctly
 // var input = document.getElementById("agentAge");
 // console.log(this.value === NaN || this.value === '');
 // input.oninput = function() {
@@ -140,7 +144,7 @@ function ageOfAgents() {
 //             jsonData["geometry"] = {"type": "Point", "coordinates": [value.latitude, value.longitude]}
 //
 //             age.push(L.geoJson(jsonData, {
-//                 onEachFeature: onEachFeature,
+//                 onEachFeature: AgentUtils.onEachFeature,
 //                 filter: function(feature) {
 //                     //console.log(feature.properties.age + 'is less than ' + parseInt(x));
 //                     //console.log(feature.properties.age < parseInt(x));
@@ -169,7 +173,7 @@ $.each(dataTest, function( index, value ) {
     jsonData["geometry"] = {"type": "Point", "coordinates": [value.latitude, value.longitude]}
 
     female.push(L.geoJson(jsonData, {
-        onEachFeature: onEachFeature,
+        onEachFeature: AgentUtils.onEachFeature,
         filter: function(feature) {
             return feature.properties.sex === "Female";
         },
@@ -179,7 +183,7 @@ $.each(dataTest, function( index, value ) {
     }));
 
     male.push(L.geoJson(jsonData, {
-        onEachFeature: onEachFeature,
+        onEachFeature: AgentUtils.onEachFeature,
         filter: function(feature) {
             return feature.properties.sex === "Male";
         },
@@ -188,7 +192,7 @@ $.each(dataTest, function( index, value ) {
         }
     }));
 });
-femaleAgents();
-maleAgents();
 
-showAll();
+AgentUtils.femaleAgents();
+AgentUtils.maleAgents();
+AgentUtils.showAll();
