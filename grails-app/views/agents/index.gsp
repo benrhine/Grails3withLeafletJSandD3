@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="leaflet" />
         <g:set var="entityName" value="${message(code: 'agents.label', default: 'Agents')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
     </head>
@@ -48,5 +48,6 @@
                 var dataTest = ${jsonData};
             </g:applyCodec>
         </g:javascript>
+
     </body>
 </html>

@@ -3,14 +3,10 @@
 // Any JavaScript file within this directory can be referenced here using a relative path.
 //
 // You're free to add application-wide JavaScript to this file, but it's generally better
-// to create separate JavaScript files as needed.
+// to create separate JavaScript files as needed. * replace this below if needed require_tree .
 //
 //= require jquery-2.2.0.min
 //= require bootstrap
-//= require leaflet
-//= require leaflet.MakiMarkers
-//= require d3.min
-//= require_tree .
 //= require_self
 
 if (typeof jQuery !== 'undefined') {

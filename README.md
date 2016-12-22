@@ -9,7 +9,11 @@ Technologies Used:
  - D3
  - Bootstrap
 
-This application is showcasing a Grails 3 application which is leveraging LeafletJS and MakiMarkers to map Male and Female agents onto a map. Additionally this application shows how to correctly map grails variables into a a java script context
+This application is showcasing a Grails 3 application which is leveraging LeafletJS and MakiMarkers to map Male and Female agents onto a map. 
+
+Application makes full use of the asset-pipeline for full auto loading of css/js and allows custom page by page css/js 
+by leveraging custom page layout gsp's Additionally this application shows how to correctly map grails variables into a 
+java script context.
 ```
 <g:javascript>
     <g:applyCodec encodeAs="none">

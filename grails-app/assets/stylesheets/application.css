@@ -8,7 +8,6 @@
 * compiled file, but it's generally better to create a new file per style scope.
 *
 *= require bootstrap
-*= require leaflet
 *= require grails
 *= require main
 *= require mobile

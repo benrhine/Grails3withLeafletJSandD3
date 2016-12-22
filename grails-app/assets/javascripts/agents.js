@@ -44,6 +44,10 @@ var agentsMap = L.map('agentsMap', {
     'maxBounds': maxBounds
 }).fitBounds(maxBounds);
 
+// if(agentsMap === undefined || agentsMap === null) {
+//     agentsMap.remove();
+// }
+
 var AgentUtils = {
 
     setActiveButton: function(id) {
